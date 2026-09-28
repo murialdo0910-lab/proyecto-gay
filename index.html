@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Smartbag – prototipo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=DM+Sans:wght@400;500&display=swap">
+<style>
+:root{--bg:#F7EDE0;--panel:#FFF8F0;--ink:#4A2C36;--soft:#8A6A73;--pink:#E8A0B4;--pink2:#C96F8C;--pink3:#F3C6D3;--cream:#FBF1E4;--line:#E6D3C0;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2A1B21;--panel:#37242C;--ink:#F7EDE0;--soft:#C9AEB6;--line:#5A3D48}}
+:root[data-theme="dark"]{--bg:#2A1B21;--panel:#37242C;--ink:#F7EDE0;--soft:#C9AEB6;--line:#5A3D48}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 'DM Sans',system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:32px 20px 48px}
+h1{font:700 clamp(40px,8vw,72px)/1 'Bricolage Grotesque',system-ui,sans-serif;margin:0 0 8px;letter-spacing:-.02em}
+.sub{color:var(--soft);max-width:46ch;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:16px}
+svg{width:100%;height:auto;display:block;max-height:600px}
+.mk{cursor:pointer;outline:none}
+.mk circle{fill:var(--ink);stroke:var(--cream);stroke-width:3;transition:r .2s,fill .2s}
+.mk text{fill:var(--cream);font:700 13px 'DM Sans',sans-serif;text-anchor:middle;pointer-events:none}
+.mk.on circle,.mk:focus-visible circle{fill:var(--pink2);r:19}
+.mk:focus-visible circle{stroke:var(--ink)}
+.list{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:14px;text-align:left;width:100%;background:var(--panel);color:var(--ink);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;font:inherit;cursor:pointer}
+.item:focus-visible{outline:3px solid var(--pink2);outline-offset:2px}
+.item.on{border-color:var(--pink2);background:var(--pink3);color:#4A2C36}
+.item.on .d{color:#6b4753}
+.n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700;font-size:13px;margin-top:2px}
+.item.on .n{background:var(--pink2);color:#fff}
+.t{font:700 18px 'Bricolage Grotesque',sans-serif;display:block}
+.d{display:none;color:var(--soft);font-size:15px;margin-top:4px}
+.item.on .d{display:block}
+.scr{margin-top:14px;background:var(--panel);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px}
+.chips{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);background:none;color:var(--ink);border-radius:999px;padding:4px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chip.on{background:var(--pink2);border-color:var(--pink2);color:#fff}
+.scr ul{margin:0;padding:0;list-style:none}.scr li{padding:7px 0;border-top:1px solid var(--line);font-size:15px}.scr li span{color:var(--soft)}
+.note{font-size:13px;color:var(--soft);margin-top:18px}
+</style>
+</head>
+<body>
+<main>
+<h1>Smartbag</h1>
+<p class="sub">La mochila que enfría tu agua, carga tu celu, se cubre sola de la lluvia y te da Wi-Fi. Tocá cada punto para ver cómo funciona.</p>
+<div class="grid">
+<div class="stage">
+<svg viewBox="0 0 420 520" role="img" aria-label="Mochila Smartbag rosa y crema con cierres, costuras y bolsillos laterales">
+<defs>
+<linearGradient id="bd" x1="0" x2="1"><stop offset="0" stop-color="#BE6883"/><stop offset=".18" stop-color="#E3A0B5"/><stop offset=".5" stop-color="#F4C3D0"/><stop offset=".82" stop-color="#E3A0B5"/><stop offset="1" stop-color="#B85F7C"/></linearGradient>
+<linearGradient id="vs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".25"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#5a2237" stop-opacity=".4"/></linearGradient>
+<linearGradient id="cr" x1="0" x2="1"><stop offset="0" stop-color="#E9D5BC"/><stop offset=".5" stop-color="#FFF8EE"/><stop offset="1" stop-color="#E6D0B4"/></linearGradient>
+<linearGradient id="sd" x1="0" x2="1"><stop offset="0" stop-color="#B25878"/><stop offset=".5" stop-color="#E39AB0"/><stop offset="1" stop-color="#B25878"/></linearGradient>
+<linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F9E0CB"/><stop offset="1" stop-color="#B57A5A"/></linearGradient>
+<filter id="fab" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .35 0 0 0 0 .12 0 0 0 0 .22 0 0 0 .9 -.4"/></filter>
+<filter id="bl" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+<path id="bp" d="M118 112C118 70 160 58 210 58C260 58 302 70 302 112L328 430C332 478 296 490 260 490L160 490C124 490 88 478 92 430Z"/>
+<clipPath id="bc"><use href="#bp"/></clipPath>
+</defs>
+<ellipse cx="210" cy="498" rx="140" ry="10" fill="#4A2C36" opacity=".3" filter="url(#bl)"/>
+<path d="M180 68C176 14 244 14 240 68" fill="none" stroke="#B25878" stroke-width="15"/>
+<path d="M180 68C176 14 244 14 240 68" fill="none" stroke="#E39AB0" stroke-width="9"/>
+<path d="M180 68C176 14 244 14 240 68" fill="none" stroke="#FBF1E4" stroke-width="1" stroke-dasharray="3 3"/>
+<use href="#bp" fill="url(#bd)"/>
+<g clip-path="url(#bc)">
+<rect width="420" height="520" filter="url(#fab)" opacity=".55"/>
+<rect width="420" height="520" fill="url(#vs)"/>
+<ellipse cx="165" cy="150" rx="45" ry="85" fill="#fff" opacity=".28" filter="url(#bl)"/>
+<rect x="0" y="456" width="420" height="60" fill="#A94F6E" opacity=".55"/>
+<path d="M90 458Q210 474 330 458" fill="none" stroke="#FBF1E4" stroke-width="1.5" stroke-dasharray="5 4"/>
+</g>
+<path d="M112 130C104 250 98 340 98 440" fill="none" stroke="#FBF1E4" stroke-opacity=".55" stroke-width="1.3" stroke-dasharray="4 3"/>
+<path d="M308 130C316 250 322 340 322 440" fill="none" stroke="#FBF1E4" stroke-opacity=".55" stroke-width="1.3" stroke-dasharray="4 3"/>
+<path d="M120 158Q210 190 300 158" fill="none" stroke="#FBF1E4" stroke-width="9" stroke-linecap="round"/>
+<path d="M120 158Q210 190 300 158" fill="none" stroke="#B86A83" stroke-width="4" stroke-dasharray="1.5 2.5"/>
+<rect x="151" y="166" width="11" height="27" rx="5" fill="url(#rg)" transform="rotate(-8 156 178)"/>
+<circle cx="156" cy="186" r="2" fill="#7a4a5a"/>
+<path d="M134 262Q134 250 148 250L272 250Q286 250 286 262L292 428Q292 446 274 446L146 446Q128 446 128 428Z" fill="url(#cr)" stroke="#D2BAA0"/>
+<path d="M134 262Q134 250 148 250L272 250Q286 250 286 262L292 428Q292 446 274 446L146 446Q128 446 128 428Z" fill="url(#vs)" opacity=".45"/>
+<path d="M140 268Q140 258 150 258L270 258Q280 258 280 268L285 424Q285 438 272 438L148 438Q135 438 135 424Z" fill="none" stroke="#E39AB0" stroke-width="1.2" stroke-dasharray="3 3"/>
+<path d="M142 282L278 282" stroke="#E3B9A0" stroke-width="8" stroke-linecap="round"/>
+<path d="M142 282L278 282" stroke="#7a4a5a" stroke-width="3.5" stroke-dasharray="1.5 2.5"/>
+<rect x="262" y="276" width="10" height="24" rx="5" fill="url(#rg)"/>
+<rect x="188" y="396" width="44" height="22" rx="5" fill="#C96F8C"/>
+<rect x="191" y="399" width="38" height="16" rx="3" fill="none" stroke="#FBF1E4" stroke-width=".9" stroke-dasharray="2 2"/>
+<text x="210" y="411" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" font-weight="700" fill="#FBF1E4">smartbag</text>
+<rect x="178" y="304" width="64" height="44" rx="14" fill="url(#cr)" stroke="#D2BAA0"/>
+<path d="M194 325Q210 312 226 325M199 331Q210 322 221 331" fill="none" stroke="#C96F8C" stroke-width="3" stroke-linecap="round"/>
+<circle cx="210" cy="337" r="2.8" fill="#C96F8C"/><circle cx="232" cy="312" r="2.2" fill="#7fd6a0"/>
+<path d="M78 270h18v12q10 4 10 16v56H68v-56q0-12 10-16z" fill="url(#cr)" stroke="#D2BAA0"/>
+<rect x="76" y="252" width="22" height="18" rx="5" fill="url(#rg)"/>
+<path d="M74 300v50" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/>
+<path d="M60 344Q60 332 72 332L112 332L112 458Q112 478 92 478L80 478Q60 478 60 458Z" fill="url(#sd)"/>
+<path d="M60 344Q60 332 72 332L112 332L112 346L60 346Z" fill="url(#cr)"/>
+<path d="M66 366h40M66 386h40M66 406h40M66 426h40M66 446h40" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M360 344Q360 332 348 332L308 332L308 458Q308 478 328 478L340 478Q360 478 360 458Z" fill="url(#sd)"/>
+<path d="M360 344Q360 332 348 332L308 332L308 346L360 346Z" fill="url(#cr)"/>
+<rect x="322" y="356" width="28" height="38" rx="7" fill="url(#cr)" stroke="#D2BAA0"/>
+<rect x="329" y="366" width="14" height="6" rx="3" fill="#4A2C36"/>
+<circle cx="330" cy="382" r="2.2" fill="#7fd6a0"/><circle cx="337" cy="382" r="2.2" fill="#7fd6a0"/><circle cx="344" cy="382" r="2.2" fill="#C9AEB6"/>
+<circle cx="210" cy="476" r="11" fill="url(#cr)"/>
+<path d="M210 468q6 8 0 13q-6-5 0-13z" fill="#C96F8C"/>
+<rect x="150" y="201" width="120" height="48" rx="9" fill="#2b1a22" stroke="#E39AB0" stroke-width="1.6"/>
+<rect x="154" y="205" width="112" height="40" rx="6" fill="#3a2430"/>
+<text id="scd0" x="161" y="216" font-family="Bricolage Grotesque,sans-serif" font-weight="700" font-size="9" fill="#F3C6D3"></text>
+<text id="scd1" x="161" y="226" font-family="DM Sans,sans-serif" font-size="6.6" fill="#FBF1E4"></text>
+<text id="scd2" x="161" y="235" font-family="DM Sans,sans-serif" font-size="6.6" fill="#FBF1E4"></text>
+<text id="scd3" x="161" y="244" font-family="DM Sans,sans-serif" font-size="6.6" fill="#FBF1E4"></text>
+<circle cx="260" cy="211" r="1.8" fill="#7fd6a0"/>
+<g class="mk" id="m1" tabindex="0" role="button" aria-label="Bolsillo térmico"><circle cx="86" cy="405" r="15"/><text x="86" y="410">1</text></g>
+<g class="mk" id="m2" tabindex="0" role="button" aria-label="Cargador portátil"><circle cx="334" cy="425" r="15"/><text x="334" y="430">2</text></g>
+<g class="mk" id="m3" tabindex="0" role="button" aria-label="Protector de agua automático"><circle cx="258" cy="474" r="15"/><text x="258" y="479">3</text></g>
+<g class="mk" id="m4" tabindex="0" role="button" aria-label="Red Wi-Fi incorporada"><circle cx="266" cy="326" r="15"/><text x="266" y="331">4</text></g>
+<g class="mk" id="m5" tabindex="0" role="button" aria-label="Pantalla inteligente"><circle cx="286" cy="226" r="15"/><text x="286" y="231">5</text></g>
+</svg>
+</div>
+<div>
+<div class="list" id="list">
+<button class="item" data-i="1"><span class="n">1</span><span><span class="t">Bolsillo térmico</span><span class="d">Bolsillo lateral con doble pared aislante (neopreno y capa reflectante). Mantiene tu botella fría durante horas o caliente para el mate y el café.</span></span></button>
+<button class="item" data-i="2"><span class="n">2</span><span><span class="t">Cargador portátil</span><span class="d">Batería de 10.000 mAh en un compartimento acolchado, con puerto USB-C y USB-A en el costado. Se saca para cargarla en casa.</span></span></button>
+<button class="item" data-i="3"><span class="n">3</span><span><span class="t">Protector de agua automático</span><span class="d">Una funda impermeable guardada en la base. Un sensor de humedad la libera cuando empieza a llover y cubre toda la mochila.</span></span></button>
+<button class="item" data-i="4"><span class="n">4</span><span><span class="t">Red Wi-Fi incorporada</span><span class="d">Un módulo 4G con chip propio crea una red para conectar hasta 5 dispositivos. Se alimenta con la batería de la mochila.</span></span></button>
+<button class="item" data-i="5"><span class="n">5</span><span><span class="t">Pantalla inteligente</span><span class="d">Pantalla de tinta electrónica (poco consumo) en el frente. Muestra el día, tus materias y qué llevar a cada una, según el horario que cargues desde el celu.</span></span></button>
+</div>
+<div class="scr" id="scr" hidden><div class="chips" id="chips"></div><ul id="scl"></ul></div>
+<p class="note">Prototipo conceptual. Los números son objetivos de diseño y necesitan pruebas con un fabricante. El Wi-Fi requiere un plan de datos y el horario se carga desde una app.</p>
+</div>
+</div>
+</main>
+<script>
+var items=document.querySelectorAll('.item');
+function sel(i){
+  items.forEach(function(b){b.classList.toggle('on',b.dataset.i==i)});
+  document.getElementById("scr").hidden=(i!=5);for(var k=1;k<=5;k++){var m=document.getElementById('m'+k);m.classList.toggle('on',k==i)}
+}
+items.forEach(function(b){b.addEventListener('click',function(){sel(b.dataset.i)})});
+document.querySelectorAll('.mk').forEach(function(m){
+  var i=m.id.slice(1);
+  m.addEventListener('click',function(){sel(i)});
+  m.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();sel(i)}});
+});
+var D={Lunes:[["Matemática","calculadora, carpeta"],["Lengua","libro, diccionario"],["Ed. Física","ropa deportiva, botella"]],Martes:[["Historia","manual, mapas"],["Inglés","cuaderno, workbook"],["Biología","guardapolvo, lupa"]],Miércoles:[["Física","calculadora, regla"],["Geografía","atlas, lápices"],["Arte","block, témperas"]],Jueves:[["Matemática","calculadora, carpeta"],["Química","tabla periódica, guardapolvo"],["Inglés","cuaderno, workbook"]],Viernes:[["Lengua","libro de lectura"],["Informática","pendrive, auriculares"],["Tutoría","agenda"]]};
+var N=Object.keys(D),ch=document.getElementById('chips');
+function setDay(n){
+  document.getElementById('scd0').textContent=n;
+  D[n].forEach(function(r,k){document.getElementById('scd'+(k+1)).textContent=r[0]+' – '+r[1].split(',')[0]});
+  document.getElementById('scl').innerHTML=D[n].map(function(r){return '<li><b>'+r[0]+'</b><br><span>Llevar: '+r[1]+'</span></li>'}).join('');
+  ch.querySelectorAll('.chip').forEach(function(c){c.classList.toggle('on',c.textContent===n)});
+}
+N.forEach(function(n){var b=document.createElement('button');b.className='chip';b.textContent=n;b.onclick=function(){setDay(n)};ch.appendChild(b)});
+var g=new Date().getDay();setDay(g>=1&&g<=5?N[g-1]:'Lunes');
+sel(1);
+</script>
+</body>
+</html>
